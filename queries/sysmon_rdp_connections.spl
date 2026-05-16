@@ -1,0 +1,5 @@
+
+index=main source="XmlWinEventLog:Microsoft-Windows-Sysmon/Operational" EventCode=3
+|where DestinationPort="3389"
+| stats count by SourceIp, DestinationIp, DestinationPort, ComputerName
+| sort -count

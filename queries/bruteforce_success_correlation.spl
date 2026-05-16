@@ -1,0 +1,9 @@
+
+index=main source="WinEventLog:Security" (EventCode=4624 OR EventCode=4625)
+| where Logon_Type="3"
+| stats count(eval(EventCode="4625")) as Failed_Attempts,
+        count(eval(EventCode="4624")) as Successful_Logins
+        by host, Source_Network_Address
+| where Failed_Attempts >=10 AND Successful_Logins > 0
+| eval Attack_Result="Brute Force Succeeded"
+| sort -Failed_Attempts

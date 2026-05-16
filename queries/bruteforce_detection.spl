@@ -1,0 +1,4 @@
+index=main source="WinEventLog:Security" EventCode=4625 Logon_Type=3 earliest=-15m
+| stats count by Source_Network_Address, Account_Name, ComputerName
+| where count >= 10
+| sort -count
